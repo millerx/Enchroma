@@ -1,0 +1,76 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:orientation="vertical">
+
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Subject"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+	        	        
+	        <ImageView
+	            android:id="@+id/subjectImg"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:scaleType="center"
+	            android:src="@android:drawable/btn_star"
+	            android:onClick="subjectImg_onClick" />
+
+    	</LinearLayout>
+	        
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:orientation="vertical">
+
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="Background"
+	            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+		    <ImageView
+	            android:id="@+id/backgroundImg"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:scaleType="center"
+	            android:src="@android:drawable/btn_star"
+	            android:onClick="backgroundImg_onClick" />
+        
+    	</LinearLayout>
+    	
+	</LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+
+        <Button
+            android:id="@+id/engageBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Enage"
+            android:onClick="engageBtn_onClick" />
+
+    </RelativeLayout>
+
+</LinearLayout>

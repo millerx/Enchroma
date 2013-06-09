@@ -19,10 +19,8 @@ public class SplashActivity extends Activity {
 	}
 
 	public void beginBtn_onClick( View v ) {
-		startActivity( new Intent(this, TakePicActivity.class ) );
-		
-		// TODO: uncomment
-		//startActivity( new Intent(this, MainActivity.class ) );
-		//finish();
+		startActivity( new Intent( this, MainActivity.class ) );
+		// Finish this activity so we won't go back to slash screen.
+		finish();
 	}	
 }

@@ -29,6 +29,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.sosobro.enchroma.MainActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name="com.sosobro.enchroma.TakePicActivity"
             android:label="@string/title_activity_take_pic" >
         </activity>
