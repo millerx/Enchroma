@@ -52,6 +52,7 @@ public class MainActivity extends Activity {
 	
 	public void subjectImg_onClick( View v ) {
 		// TODO: Take picture
+		// foobar
 	}
 	
 	private void onPictureTaken( ) {
