@@ -8,19 +8,41 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.sosobro.enchroma.MainActivity"
+            android:name="com.sosobro.enchroma.SplashActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.sosobro.enchroma.TakePicActivity"
+            android:label="@string/title_activity_take_pic" >
+        </activity>
+        <activity
+            android:name="com.sosobro.enchroma.CropActivity"
+            android:label="@string/title_activity_crop" >
+        </activity>
+        <activity
+            android:name="com.sosobro.enchroma.SelectBgActivity"
+            android:label="@string/title_activity_select_bg" >
+        </activity>
+        <activity
+            android:name="com.sosobro.enchroma.ChromakeyActivity"
+            android:label="@string/title_activity_chromakey" >
         </activity>
     </application>
 
