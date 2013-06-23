@@ -5,7 +5,6 @@ import java.io.File;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -19,10 +18,10 @@ import android.widget.ImageView;
 
 public class MainActivity extends Activity {
 
-	private static final int REQ_CAPTURESUBJECTPHOTO = 1;
+	public static final int REQ_CAPTURESUBJECTPHOTO = 1;
 	
-	private static final String BUNDLE_SUBJECTFILE = "subjectFile";
-	private static final String BUNDLE_SUBJECTTHUMB = "subjectThumb";
+	public static final String BN_SUBJECTFILE = "subjectFile";
+	public static final String BN_SUBJECTTHUMB = "subjectThumb";
 	
 	private File _subjectFile;
 	private Bitmap _subjectThumb;
@@ -45,9 +44,9 @@ public class MainActivity extends Activity {
 	protected void onRestoreInstanceState( Bundle state ) {
 		super.onRestoreInstanceState( state );
 
-		if (state.containsKey( BUNDLE_SUBJECTFILE ))
-			_subjectFile = new File( state.getString( BUNDLE_SUBJECTFILE ) );
-		_subjectThumb = (Bitmap) state.getParcelable( BUNDLE_SUBJECTTHUMB );
+		if (state.containsKey( BN_SUBJECTFILE ))
+			_subjectFile = new File( state.getString( BN_SUBJECTFILE ) );
+		_subjectThumb = (Bitmap) state.getParcelable( BN_SUBJECTTHUMB );
 		
 		printState( "restoreInstanceState" );
 	}
@@ -57,9 +56,10 @@ public class MainActivity extends Activity {
 		System.out.printf( "subjectFile=%s\n", _subjectFile==null ? "" : _subjectFile.toString() );
 		System.out.printf( "subjectBitmap=%d\n", _subjectThumb==null ? 0 : _subjectThumb.getByteCount() );
 	}
-	
+
+	// TODO: Change back to protected.
 	@Override
-	protected void onActivityResult( int requestCode, int resultCode, Intent data ) {
+	public void onActivityResult( int requestCode, int resultCode, Intent data ) {
 		super.onActivityResult( requestCode, resultCode, data );
 
 		System.out.printf("onActivityResult req=%d res=%d\n", requestCode, resultCode);
@@ -89,9 +89,9 @@ public class MainActivity extends Activity {
 		printState( "saveInstanceState" );
 		
 		if (_subjectFile != null)
-			state.putString( BUNDLE_SUBJECTFILE, _subjectFile.toString() );
+			state.putString( BN_SUBJECTFILE, _subjectFile.toString() );
 		if (_subjectThumb != null)
-			state.putParcelable( BUNDLE_SUBJECTTHUMB, _subjectThumb );
+			state.putParcelable( BN_SUBJECTTHUMB, _subjectThumb );
 	}
 	
 	public void subjectImg_onClick( View v ) {
@@ -103,8 +103,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void onPictureTaken( ) {
-		Bitmap subjectBmp = BitmapFactory.decodeFile( _subjectFile.toString() );
-		_subjectThumb = PhotoUtils.instance.createThumbnail( subjectBmp );
+		_subjectThumb = PhotoUtils.instance.createThumbnail( _subjectFile );
 	}
 	
 	public void backgroundImg_onClick( View v ) {

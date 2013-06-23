@@ -4,6 +4,7 @@ import java.io.File;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 
 public class PhotoUtils {
@@ -18,6 +19,12 @@ public class PhotoUtils {
 		return new File(
 			f.toString(),
 			"subject.jpg" );
+	}
+
+	public Bitmap createThumbnail( File f ) {
+		// TODO: Sub-sample for purposes of thumbnail?
+		Bitmap b = BitmapFactory.decodeFile( f.toString() );
+		return createThumbnail( b );
 	}
 	
 	public Bitmap createThumbnail( Bitmap b ) {
