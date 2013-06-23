@@ -8,7 +8,7 @@ import android.view.View;
 // TODO: Center button better
 // TODO: Handle horizontal layout
 // TODO: Timer instead of button?  With button?
-// TODO: Copyright image?
+// TODO: Copyrighted image?
 
 public class SplashActivity extends Activity {
 

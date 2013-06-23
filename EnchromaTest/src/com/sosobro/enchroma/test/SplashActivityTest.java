@@ -10,13 +10,16 @@ public class SplashActivityTest extends ActivityUnitTestCase<SplashActivity> {
 		super( SplashActivity.class );
 	}
 
-	/// Tests when the user clicks the Begin button.
-	public void testBeginApp( ) {
-		SplashActivity a = (SplashActivity) startActivity(
+	protected void setUp( ) throws Exception {
+		super.setUp();
+		startActivity(
 			new Intent( getInstrumentation().getTargetContext(), SplashActivity.class ),
 			null, null );
+	}
 
-		a.beginBtn_onClick( null );
+	/// Tests when the user clicks the Begin button.
+	public void testBeginApp( ) {
+		getActivity().beginBtn_onClick( null );
 
 		assertEquals( "com.sosobro.enchroma.MainActivity",
 			getStartedActivityIntent().getComponent().getClassName() );
