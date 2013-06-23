@@ -48,8 +48,16 @@ public class MainActivity extends Activity {
 		if (state.containsKey( BUNDLE_SUBJECTFILE ))
 			_subjectFile = new File( state.getString( BUNDLE_SUBJECTFILE ) );
 		_subjectThumb = (Bitmap) state.getParcelable( BUNDLE_SUBJECTTHUMB );
+		
+		printState( "restoreInstanceState" );
 	}
 
+	private void printState( String header ) {
+		System.out.println( header );
+		System.out.printf( "subjectFile=%s\n", _subjectFile==null ? "" : _subjectFile.toString() );
+		System.out.printf( "subjectBitmap=%d\n", _subjectThumb==null ? 0 : _subjectThumb.getByteCount() );
+	}
+	
 	@Override
 	protected void onActivityResult( int requestCode, int resultCode, Intent data ) {
 		super.onActivityResult( requestCode, resultCode, data );
@@ -78,6 +86,8 @@ public class MainActivity extends Activity {
 	protected void onSaveInstanceState( Bundle state ) {
 		super.onSaveInstanceState( state );
 
+		printState( "saveInstanceState" );
+		
 		if (_subjectFile != null)
 			state.putString( BUNDLE_SUBJECTFILE, _subjectFile.toString() );
 		if (_subjectThumb != null)
@@ -85,51 +95,16 @@ public class MainActivity extends Activity {
 	}
 	
 	public void subjectImg_onClick( View v ) {
-		TakeSubjectPhoto();
-	}
-	
-	private void TakeSubjectPhoto( ) {
-		_subjectFile = createSubjectFile();
+		_subjectFile = PhotoUtils.createSubjectFilePath( this );
 		
 		Intent i = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
 		i.putExtra( MediaStore.EXTRA_OUTPUT, Uri.fromFile( _subjectFile ) );
 		startActivityForResult( i, REQ_CAPTURESUBJECTPHOTO );
 	}
 
-	private File createSubjectFile( ) {
-		// /storage/sdcard0/Pictures/Enchroma/subject.jpg
-		
-		File f = new File(
-			Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_PICTURES ),
-			getResources().getString( R.string.app_name ) );
-		// TODO: Is this necessary?
-		// TODO: Fake
-		f.mkdir();
-		
-		return new File(
-			f.toString(),
-			"subject.jpg" );
-	}
-	
 	private void onPictureTaken( ) {
-		// TODO: Load _subjectFile from state
-		_subjectFile = createSubjectFile();
-		
 		Bitmap subjectBmp = BitmapFactory.decodeFile( _subjectFile.toString() );
-		_subjectThumb = createThumbnail( subjectBmp );
-	}
-	
-	private Bitmap createThumbnail( Bitmap b ) {
-		// TODO: Scale to exact size?
-		final int THUMBNAIL_HEIGHT = 336;
-		//final int THUMBNAIL_WIDTH = 66;
-
-		Float width  = Float.valueOf( b.getWidth() );
-		Float height = Float.valueOf( b.getHeight() );
-		Float ratio = width / height;
-		int newWidth = (int) (THUMBNAIL_HEIGHT * ratio);
-		
-		return Bitmap.createScaledBitmap( b, newWidth, THUMBNAIL_HEIGHT, false );
+		_subjectThumb = PhotoUtils.createThumbnail( subjectBmp );
 	}
 	
 	public void backgroundImg_onClick( View v ) {
