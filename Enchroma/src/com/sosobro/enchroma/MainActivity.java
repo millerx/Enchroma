@@ -2,32 +2,32 @@ package com.sosobro.enchroma;
 
 import java.io.File;
 
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 
 // TODO: Optimize layout
-// TODO: http://stackoverflow.com/questions/5254562/is-there-a-simpler-better-way-to-put-a-border-outline-around-my-textview
+//       http://stackoverflow.com/questions/5254562/is-there-a-simpler-better-way-to-put-a-border-outline-around-my-textview
+// TODO: Thumbnail does not respect orientation.
 
 public class MainActivity extends Activity {
 
 	private static final int REQ_CAPTURESUBJECTPHOTO = 1;
 	
-	public static final String BUNDLE_SUBJECTFILE = "subjectFile";
-	public static final String BUNDLE_SUBJECTTHUMB = "subjectThumb";
+	private static final String BUNDLE_SUBJECTFILE = "subjectFile";
+	private static final String BUNDLE_SUBJECTTHUMB = "subjectThumb";
 	
 	private File _subjectFile;
 	private Bitmap _subjectThumb;
 	//private File _backgroundFile;
-	
+
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
 		super.onCreate( savedInstanceState );
@@ -95,7 +95,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void subjectImg_onClick( View v ) {
-		_subjectFile = PhotoUtils.createSubjectFilePath( this );
+		_subjectFile = PhotoUtils.instance.createSubjectFilePath( this );
 		
 		Intent i = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
 		i.putExtra( MediaStore.EXTRA_OUTPUT, Uri.fromFile( _subjectFile ) );
@@ -104,7 +104,7 @@ public class MainActivity extends Activity {
 
 	private void onPictureTaken( ) {
 		Bitmap subjectBmp = BitmapFactory.decodeFile( _subjectFile.toString() );
-		_subjectThumb = PhotoUtils.createThumbnail( subjectBmp );
+		_subjectThumb = PhotoUtils.instance.createThumbnail( subjectBmp );
 	}
 	
 	public void backgroundImg_onClick( View v ) {

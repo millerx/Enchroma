@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Environment;
 
 public class PhotoUtils {
-	public static File createSubjectFilePath( Activity a ) {
+	public File createSubjectFilePath( Activity a ) {
 		// /storage/sdcard0/Pictures/Enchroma/subject.jpg
 		
 		File f = new File(
@@ -20,7 +20,7 @@ public class PhotoUtils {
 			"subject.jpg" );
 	}
 	
-	public static Bitmap createThumbnail( Bitmap b ) {
+	public Bitmap createThumbnail( Bitmap b ) {
 		// TODO: Scale to exact size?
 		final int THUMBNAIL_HEIGHT = 336;
 		//final int THUMBNAIL_WIDTH = 66;
@@ -32,4 +32,6 @@ public class PhotoUtils {
 		
 		return Bitmap.createScaledBitmap( b, newWidth, THUMBNAIL_HEIGHT, false );
 	}
+	
+	public static PhotoUtils instance = new PhotoUtils();
 }
