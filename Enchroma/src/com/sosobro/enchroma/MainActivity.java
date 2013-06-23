@@ -57,7 +57,6 @@ public class MainActivity extends Activity {
 		System.out.printf( "subjectBitmap=%d\n", _subjectThumb==null ? 0 : _subjectThumb.getByteCount() );
 	}
 
-	// TODO: Change back to protected.
 	@Override
 	public void onActivityResult( int requestCode, int resultCode, Intent data ) {
 		super.onActivityResult( requestCode, resultCode, data );

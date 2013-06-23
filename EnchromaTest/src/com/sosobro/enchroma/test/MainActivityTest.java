@@ -20,9 +20,11 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
 
 	private class TestPhotoUtils extends PhotoUtils {
 		
+		public static final String SubjectFilePath = "/storage/sdcard0/Pictures/Enchroma/subject.jpg";
+		
 		@Override
 		public File createSubjectFilePath( Activity a ) {
-			return new File( "/storage/sdcard0/Pictures/Enchroma/subject.jpg" );
+			return new File( SubjectFilePath );
 		}
 
 		@Override
@@ -46,9 +48,21 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
 			null, null );
 	}
 
-	// TODO: Test load and save state with an empty bundle.
+	public void testSaveAndRestoreEmptyState( ) {
+		MainActivity a = getActivity();
+		
+		getInstrumentation().callActivityOnRestoreInstanceState( a, new Bundle() );
+		
+		// Nothing blew up?  Good.
+		
+		Bundle outState = new Bundle();
+		getInstrumentation().callActivityOnSaveInstanceState( a, outState );
+		
+		// Can we restore what was saved?
+		getInstrumentation().callActivityOnRestoreInstanceState( a, outState );
+	}
 	
-	public void testSubjectImg_Clicked( ) {
+	public void testTakeSubjectPhoto( ) {
 		MainActivity a = getActivity();
 		
 		a.subjectImg_onClick( null );
@@ -65,8 +79,7 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
 		// We should have saved our current state.
 		Bundle outState = new Bundle();
 		getInstrumentation().callActivityOnSaveInstanceState( a, outState );
-		assertEquals( "/storage/sdcard0/Pictures/Enchroma/subject.jpg",
-			outState.getString( "subjectFile" ) );
+		assertEquals( TestPhotoUtils.SubjectFilePath, outState.getString( "subjectFile" ) );
 		
 		// TODO: Test if path was created.
 	}
@@ -74,15 +87,12 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
 	public void testCameraActivityReturns( ) {
 		MainActivity a = getActivity();
 		
-		// TODO: Combine both subject tests and use a monitor.
-		//       http://stackoverflow.com/questions/13042015/testing-onactivityresult
-		
 		// Restore state from when subjectImg was clicked.
 		Bundle inState = new Bundle();
-		inState.putString( MainActivity.BN_SUBJECTFILE, "/storage/sdcard0/Pictures/Enchroma/subject.jpg" );
+		inState.putString( MainActivity.BN_SUBJECTFILE, TestPhotoUtils.SubjectFilePath );
 		getInstrumentation().callActivityOnRestoreInstanceState( a, inState );
 
-		// Intent from camera activity with a filepath is null.
+		// Intent from camera activity with a file path is null.
 		a.onActivityResult( MainActivity.REQ_CAPTURESUBJECTPHOTO, Activity.RESULT_OK, null );
 		
 		getInstrumentation().callActivityOnResume( a );
