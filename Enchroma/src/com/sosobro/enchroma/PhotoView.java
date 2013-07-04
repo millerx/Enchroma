@@ -25,7 +25,7 @@ public class PhotoView extends ImageView
 	private int _reqId;
 	private SavedState _ss = new SavedState();
 
-	static class SavedState extends BaseSavedState {
+	public static class SavedState extends BaseSavedState {
 		public File photoFile;
 
 		public SavedState( ) {
@@ -37,12 +37,12 @@ public class PhotoView extends ImageView
 			photoFile = ss.photoFile;
 		}
 		
-		private SavedState( Parcel in ) {
+		public SavedState( Parcel in ) {
 			super( in );
 			
 			{ // photoFile
 				String s = in.readString();
-				photoFile = (s == "") ? null : new File( s ); 
+				photoFile = s.isEmpty() ? null : new File( s ); 
 			}
 			
 			printState("Restored state:");
@@ -79,9 +79,8 @@ public class PhotoView extends ImageView
 		_reqId = reqId;
 	}
 	
-	// TODO: Print what was saved and loaded
 	@Override
-	protected Parcelable onSaveInstanceState( ) {
+	public Parcelable onSaveInstanceState( ) {
 		return new SavedState( super.onSaveInstanceState(), _ss );
 	}
 

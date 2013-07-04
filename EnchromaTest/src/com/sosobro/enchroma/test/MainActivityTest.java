@@ -65,7 +65,7 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
 	public void testTakeSubjectPhoto( ) {
 		MainActivity a = getActivity();
 		
-		a.subjectImg_onClick( null );
+		//a.subjectImg_onClick( null );
 
 		// Did we start the camera activity specifying the file path?
 		Intent i = getStartedActivityIntent();
