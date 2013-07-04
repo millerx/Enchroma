@@ -14,7 +14,6 @@ import android.widget.ImageView;
 
 // TODO: Optimize layout
 //       http://stackoverflow.com/questions/5254562/is-there-a-simpler-better-way-to-put-a-border-outline-around-my-textview
-// TODO: Thumbnail does not respect orientation.
 
 public class MainActivity extends Activity {
 
@@ -67,7 +66,8 @@ public class MainActivity extends Activity {
 		super.onActivityResult( requestCode, resultCode, data );
 
 		System.out.printf("onActivityResult req=%d res=%d\n", requestCode, resultCode);
-		
+
+		// TODO: No need for resultCode check.
 		if (requestCode == REQ_CAPTURESUBJECTPHOTO && resultCode == RESULT_OK) {
 			PhotoView v = (PhotoView) findViewById( R.id.subjectImg );
 			v.onActivityResult( resultCode, data );

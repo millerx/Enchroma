@@ -41,9 +41,13 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 	
 	protected void setUp( ) throws Exception {
 		super.setUp();
+		
+		PhotoUtils.instance = new TestPhotoUtils();
+		
 		MainActivity a = (MainActivity) startActivity(
 			new Intent( getInstrumentation().getTargetContext(), MainActivity.class ),
 			null, null );
+		
 		_photoView = (PhotoView) a.findViewById( R.id.subjectImg );
 	}
 
@@ -63,6 +67,18 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 		
 		// TODO: Test if path was created.
 	}
+
+	public void testCameraActivityReturns( ) {
+		_photoView.onActivityResult( Activity.RESULT_OK, null );
+		
+		// Did we create the thumb and save it to the state?
+		PhotoView.SavedState ss = (PhotoView.SavedState) _photoView.onSaveInstanceState();
+		assertNotNull( ss.thumb );
+		
+		// When the state is restored we set the image.
+		_photoView.onRestoreInstanceState( ss );
+		assertEquals( 8, _photoView.getDrawable().getIntrinsicWidth() );
+	}
 	
 	public void testSaveRestoreState( ) {
 		Parcel p = Parcel.obtain();
@@ -70,12 +86,14 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 		// Save
 		PhotoView.SavedState ss = new PhotoView.SavedState();
 		ss.photoFile = new File( TestPhotoUtils.SubjectFilePath );
+		ss.thumb = PhotoUtils.instance.createThumbnail( ss.photoFile );
 		ss.writeToParcel( p, 0 );
 
 		// Restore
 		p.setDataPosition( 0 );
 		ss = new PhotoView.SavedState( p );
 		assertEquals( TestPhotoUtils.SubjectFilePath, ss.photoFile.toString() );
+		assertNotNull( ss.thumb );
 		
 		p.recycle();
 	}
@@ -91,6 +109,7 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 		p.setDataPosition( 0 );
 		ss = new PhotoView.SavedState( p );
 		assertNull( ss.photoFile );
+		assertNull( ss.thumb );
 		
 		p.recycle();
 	}

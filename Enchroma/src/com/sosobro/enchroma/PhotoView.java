@@ -1,14 +1,15 @@
 package com.sosobro.enchroma;
 
-// Next:
-// - Create and serialize thumb.
-// - Continue moving code over.
-// - Pull out CameraPhotoView vs SelectPhotoView
+// TODO: Strip out code from main.
+// TODO: Complete todos. Make sure everything is clean before pushing branch.
+// TODO: Thumbnail does not respect orientation.
+
 import java.io.File;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -27,6 +28,7 @@ public class PhotoView extends ImageView
 
 	public static class SavedState extends BaseSavedState {
 		public File photoFile;
+		public Bitmap thumb;
 
 		public SavedState( ) {
 			super( new Bundle() );
@@ -35,6 +37,7 @@ public class PhotoView extends ImageView
 		public SavedState( Parcelable p, SavedState ss ) {
 			super( p );
 			photoFile = ss.photoFile;
+			thumb = ss.thumb;
 		}
 		
 		public SavedState( Parcel in ) {
@@ -45,6 +48,8 @@ public class PhotoView extends ImageView
 				photoFile = s.isEmpty() ? null : new File( s ); 
 			}
 			
+			thumb = in.readParcelable( Bitmap.class.getClassLoader() );
+			
 			printState("Restored state:");
 		}
 
@@ -52,6 +57,7 @@ public class PhotoView extends ImageView
 		public void writeToParcel( Parcel out, int flags ) {
 			super.writeToParcel( out, flags );
 			out.writeString( (photoFile == null) ? "" : photoFile.toString() );
+			out.writeParcelable( thumb, 0 );
 			
 			printState("Saved state:");
 		}
@@ -59,7 +65,7 @@ public class PhotoView extends ImageView
 		private void printState( String header ) {
 			System.out.println( header );
 			System.out.printf( "photoFile=%s\n", photoFile==null ? "null" : photoFile.toString() );
-			//System.out.printf( "thumb=%d\n", thumb==null ? 0 : thumb.getByteCount() );
+			System.out.printf( "thumb=%d\n", thumb==null ? 0 : thumb.getByteCount() );
 		}
 		
 		// required field that makes Parcelables from a Parcel
@@ -85,9 +91,13 @@ public class PhotoView extends ImageView
 	}
 
 	@Override
-	protected void onRestoreInstanceState( Parcelable state ) {
+	public void onRestoreInstanceState( Parcelable state ) {
 		_ss = (SavedState) state;
 		super.onRestoreInstanceState( _ss.getSuperState() );
+
+		if (_ss.thumb != null) {
+			setImageBitmap( _ss.thumb );
+		}
 	}
 
 	@Override
@@ -101,8 +111,9 @@ public class PhotoView extends ImageView
 	}
 
 	public void onActivityResult( int resultCode, Intent data ) {
-		System.out.printf( "onActivityResult photoFile=%s\n",
-			(_ss.photoFile == null) ? "null" : _ss.photoFile.toString() ); 
-		// TODO: Move Main.onPictureTaken
+		// Camera activity with filename provided provides no data.
+		if (resultCode == Activity.RESULT_OK) {
+			_ss.thumb = PhotoUtils.instance.createThumbnail( _ss.photoFile );
+		}
 	}
 }
