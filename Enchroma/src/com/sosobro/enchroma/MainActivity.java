@@ -31,6 +31,11 @@ public class MainActivity extends Activity {
 	protected void onCreate( Bundle savedInstanceState ) {
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_main );
+
+		{ // Init subjectImg
+			PhotoView v = (PhotoView) findViewById( R.id.subjectImg );
+			v.init( this, REQ_CAPTURESUBJECTPHOTO );
+		}
 	}
 
 	@Override
@@ -52,9 +57,9 @@ public class MainActivity extends Activity {
 	}
 
 	private void printState( String header ) {
-		System.out.println( header );
-		System.out.printf( "subjectFile=%s\n", _subjectFile==null ? "" : _subjectFile.toString() );
-		System.out.printf( "subjectBitmap=%d\n", _subjectThumb==null ? 0 : _subjectThumb.getByteCount() );
+		//System.out.println( header );
+		//System.out.printf( "subjectFile=%s\n", _subjectFile==null ? "" : _subjectFile.toString() );
+		//System.out.printf( "subjectBitmap=%d\n", _subjectThumb==null ? 0 : _subjectThumb.getByteCount() );
 	}
 
 	@Override
@@ -64,7 +69,8 @@ public class MainActivity extends Activity {
 		System.out.printf("onActivityResult req=%d res=%d\n", requestCode, resultCode);
 		
 		if (requestCode == REQ_CAPTURESUBJECTPHOTO && resultCode == RESULT_OK) {
-			onPictureTaken();
+			PhotoView v = (PhotoView) findViewById( R.id.subjectImg );
+			v.onActivityResult( resultCode, data );
 		}
 		else if (requestCode == Common.REQ_SELECTBACKGROUND && resultCode == RESULT_OK) {
 			onBackgroundSelected();
@@ -93,13 +99,13 @@ public class MainActivity extends Activity {
 			state.putParcelable( BN_SUBJECTTHUMB, _subjectThumb );
 	}
 	
-	public void subjectImg_onClick( View v ) {
+	/*public void subjectImg_onClick( View v ) {
 		_subjectFile = PhotoUtils.instance.createSubjectFilePath( this );
 		
 		Intent i = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
 		i.putExtra( MediaStore.EXTRA_OUTPUT, Uri.fromFile( _subjectFile ) );
 		startActivityForResult( i, REQ_CAPTURESUBJECTPHOTO );
-	}
+	}*/
 
 	private void onPictureTaken( ) {
 		_subjectThumb = PhotoUtils.instance.createThumbnail( _subjectFile );

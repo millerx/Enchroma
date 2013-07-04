@@ -23,13 +23,12 @@
 	            android:text="Subject"
 	            android:textAppearance="?android:attr/textAppearanceSmall" />
 	        	        
-	        <ImageView
+	        <com.sosobro.enchroma.PhotoView
 	            android:id="@+id/subjectImg"
 	            android:layout_width="match_parent"
 	            android:layout_height="match_parent"
 	            android:scaleType="center"
-	            android:src="@android:drawable/btn_star"
-	            android:onClick="subjectImg_onClick" />
+	            android:src="@android:drawable/btn_star" />
 
     	</LinearLayout>
 	        
