@@ -19,7 +19,7 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 		super( MainActivity.class );
 	}
 
-	private class TestPhotoUtils extends PhotoUtils {
+	private class TestFileUtils extends FileUtils {
 		
 		public static final String SubjectFilePath = "/storage/sdcard0/Pictures/Enchroma/subject.jpg";
 		
@@ -28,6 +28,9 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 			return new File( SubjectFilePath );
 		}
 
+	}
+
+	private class TestThumbnailBuilder extends ThumbnailBuilder {
 		@Override
 		public Bitmap createThumbnail( File f ) {
 			return Bitmap.createBitmap( 8, 8, Bitmap.Config.RGB_565 );
@@ -37,7 +40,8 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 	protected void setUp( ) throws Exception {
 		super.setUp();
 		
-		PhotoUtils.instance = new TestPhotoUtils();
+		FileUtils.instance = new TestFileUtils();
+		ThumbnailBuilder.instance = new TestThumbnailBuilder();
 		
 		MainActivity a = (MainActivity) startActivity(
 			new Intent( getInstrumentation().getTargetContext(), MainActivity.class ),
@@ -58,7 +62,7 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 
 		// Did we save the state?
 		PhotoView.SavedState ss = (PhotoView.SavedState) _photoView.onSaveInstanceState();
-		assertEquals( TestPhotoUtils.SubjectFilePath, ss.photoFile.toString() );
+		assertEquals( TestFileUtils.SubjectFilePath, ss.photoFile.toString() );
 		
 		// TODO: Test if path was created.
 	}
@@ -80,14 +84,14 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 		
 		// Save
 		PhotoView.SavedState ss = new PhotoView.SavedState();
-		ss.photoFile = new File( TestPhotoUtils.SubjectFilePath );
-		ss.thumb = PhotoUtils.instance.createThumbnail( ss.photoFile );
+		ss.photoFile = new File( TestFileUtils.SubjectFilePath );
+		ss.thumb = ThumbnailBuilder.instance.createThumbnail( ss.photoFile );
 		ss.writeToParcel( p, 0 );
 
 		// Restore
 		p.setDataPosition( 0 );
 		ss = new PhotoView.SavedState( p );
-		assertEquals( TestPhotoUtils.SubjectFilePath, ss.photoFile.toString() );
+		assertEquals( TestFileUtils.SubjectFilePath, ss.photoFile.toString() );
 		assertNotNull( ss.thumb );
 		
 		p.recycle();

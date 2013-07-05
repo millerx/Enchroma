@@ -2,26 +2,12 @@ package com.sosobro.enchroma;
 
 import java.io.File;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
-import android.os.Environment;
 
-public class PhotoUtils {
-	public File createSubjectFilePath( Activity a ) {
-		// /storage/sdcard0/Pictures/Enchroma/subject.jpg
-		
-		File f = new File(
-			Environment.getExternalStoragePublicDirectory( Environment.DIRECTORY_PICTURES ),
-			a.getResources().getString( R.string.app_name ) );
-		f.mkdir();
-		
-		return new File(
-			f.toString(),
-			"subject.jpg" );
-	}
+public class ThumbnailBuilder {
 
 	private static int getOrientation( String filename ) {
 		try {
@@ -59,5 +45,6 @@ public class PhotoUtils {
 		return rotateBitmap( thumb, getOrientation( f.toString() ) );
 	}
 	
-	public static PhotoUtils instance = new PhotoUtils();
+	public static ThumbnailBuilder instance = new ThumbnailBuilder();
+
 }

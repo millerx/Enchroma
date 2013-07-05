@@ -98,7 +98,7 @@ public class PhotoView extends ImageView
 
 	@Override
 	public void onClick( View v ) {
-		_ss.photoFile = PhotoUtils.instance.createSubjectFilePath( _activity );
+		_ss.photoFile = FileUtils.instance.createSubjectFilePath( _activity );
 		
 		Intent i = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
 		i.putExtra( MediaStore.EXTRA_OUTPUT, Uri.fromFile( _ss.photoFile ) );
@@ -108,7 +108,7 @@ public class PhotoView extends ImageView
 	public void onActivityResult( int resultCode, Intent data ) {
 		// Camera activity with filename provided provides no data.
 		if (resultCode == Activity.RESULT_OK) {
-			_ss.thumb = PhotoUtils.instance.createThumbnail( _ss.photoFile );
+			_ss.thumb = ThumbnailBuilder.instance.createThumbnail( _ss.photoFile );
 		}
 	}
 }
