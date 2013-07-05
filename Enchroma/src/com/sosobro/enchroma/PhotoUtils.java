@@ -35,7 +35,7 @@ public class PhotoUtils {
 		return ExifInterface.ORIENTATION_NORMAL;
 	}
 	
-	private static Matrix getOrientationMatrix( int orient ) {
+	private static Bitmap rotateBitmap( Bitmap b, int orient ) {
 		Matrix m = new Matrix();
 		switch (orient) {
 		case ExifInterface.ORIENTATION_ROTATE_90:
@@ -48,33 +48,15 @@ public class PhotoUtils {
 			m.postRotate( 270 );
 			break;
 		}
-		return m;
-	}
-
-	private static Bitmap rotateBitmap( Bitmap b, int orient ) {
-		return Bitmap.createBitmap( b, 0, 0, b.getWidth(), b.getHeight(),
-			getOrientationMatrix( orient ), false );
+		
+		return Bitmap.createBitmap( b, 0, 0, b.getWidth(), b.getHeight(), m, false );
 	}
 	
 	public Bitmap createThumbnail( File f ) {
-		// TODO: Sub-sample for purposes of thumbnail?
-		// TODO: BitmapFactory.Options.inSampleSize instead of creating thumbnail?
-		Bitmap b = BitmapFactory.decodeFile( f.toString() );
-		Bitmap thumb = createThumbnail( b );
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inSampleSize = 8;
+		Bitmap thumb = BitmapFactory.decodeFile( f.toString(), options );
 		return rotateBitmap( thumb, getOrientation( f.toString() ) );
-	}
-	
-	public Bitmap createThumbnail( Bitmap b ) {
-		// TODO: Scale to exact size?
-		final int THUMBNAIL_HEIGHT = 336;
-		//final int THUMBNAIL_WIDTH = 66;
-
-		Float width  = Float.valueOf( b.getWidth() );
-		Float height = Float.valueOf( b.getHeight() );
-		Float ratio = width / height;
-		int newWidth = (int) (THUMBNAIL_HEIGHT * ratio);
-
-		return Bitmap.createScaledBitmap( b, newWidth, THUMBNAIL_HEIGHT, false );
 	}
 	
 	public static PhotoUtils instance = new PhotoUtils();

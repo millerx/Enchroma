@@ -29,11 +29,6 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 		}
 
 		@Override
-		public Bitmap createThumbnail( Bitmap b ) {
-			return b;
-		}
-		
-		@Override
 		public Bitmap createThumbnail( File f ) {
 			return Bitmap.createBitmap( 8, 8, Bitmap.Config.RGB_565 );
 		}
