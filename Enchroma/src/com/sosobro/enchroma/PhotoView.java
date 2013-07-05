@@ -1,9 +1,5 @@
 package com.sosobro.enchroma;
 
-// TODO: Strip out code from main.
-// TODO: Complete todos. Make sure everything is clean before pushing branch.
-// TODO: Thumbnail does not respect orientation.
-
 import java.io.File;
 
 import android.app.Activity;
@@ -102,7 +98,6 @@ public class PhotoView extends ImageView
 
 	@Override
 	public void onClick( View v ) {
-		// TODO: Refactor into this class.
 		_ss.photoFile = PhotoUtils.instance.createSubjectFilePath( _activity );
 		
 		Intent i = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
