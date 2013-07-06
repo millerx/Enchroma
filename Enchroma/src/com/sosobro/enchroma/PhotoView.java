@@ -1,5 +1,6 @@
 package com.sosobro.enchroma;
 
+// TODO: Unit test writes error to log.
 // TODO: Refactor code, pull from PhotoView to CameraPhotoView
 // TODO: Implement SelectPhotoView
 
@@ -16,7 +17,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 
-public class PhotoView extends ImageView
+public abstract class PhotoView extends ImageView
 	implements View.OnClickListener {
 
 	protected Activity _activity;
@@ -96,16 +97,11 @@ public class PhotoView extends ImageView
 			setImageBitmap( _ss.thumb );
 		}
 	}
-
-	// TODO: Make PhotoView abstract?
-	@Override
-	public void onClick( View v ) {
-	}
 	
 	public void onActivityResult( int resultCode, Intent data ) {
-		// Camera activity with filename provided provides no data.
 		if (resultCode == Activity.RESULT_OK) {
-			_ss.thumb = ThumbnailBuilder.instance.createThumbnail( _ss.photoFile );
+			if (_ss.photoFile != null)
+				_ss.thumb = ThumbnailBuilder.instance.createThumbnail( _ss.photoFile );
 		}
 	}
 }

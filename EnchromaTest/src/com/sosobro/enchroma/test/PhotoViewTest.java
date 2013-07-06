@@ -31,6 +31,9 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 	}
 
 	public void testActivityReturns( ) {
+		// onClick sets the photo filename which we need before we will create a thumbnail.
+		// TODO: This file is dependent on CameraPhotoView's implementation. 
+		_photoView.onClick(  _photoView );
 		_photoView.onActivityResult( Activity.RESULT_OK, null );
 		
 		// Did we create the thumb and save it to the state?
