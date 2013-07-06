@@ -1,5 +1,11 @@
 package com.sosobro.enchroma;
 
+// TODO: Subclass to CameraPhotoView
+// TODO: Subclass to SelectPhotoView
+// TODO: Wire up new classes to buttons.
+// TODO: Refactor code, pull from PhotoView to CameraPhotoView
+// TODO: Implement SelectPhotoView
+
 import java.io.File;
 
 import android.app.Activity;
