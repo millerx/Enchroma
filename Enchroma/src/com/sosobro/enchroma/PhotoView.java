@@ -9,11 +9,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,9 +19,9 @@ import android.widget.ImageView;
 public class PhotoView extends ImageView
 	implements View.OnClickListener {
 
-	private Activity _activity;
-	private int _reqId;
-	private SavedState _ss = new SavedState();
+	protected Activity _activity;
+	protected int _reqId;
+	protected SavedState _ss = new SavedState();
 
 	public static class SavedState extends BaseSavedState {
 		public File photoFile;
@@ -99,15 +97,11 @@ public class PhotoView extends ImageView
 		}
 	}
 
+	// TODO: Make PhotoView abstract?
 	@Override
 	public void onClick( View v ) {
-		_ss.photoFile = FileUtils.instance.createSubjectFilePath( _activity );
-		
-		Intent i = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
-		i.putExtra( MediaStore.EXTRA_OUTPUT, Uri.fromFile( _ss.photoFile ) );
-		_activity.startActivityForResult( i, _reqId );
 	}
-
+	
 	public void onActivityResult( int resultCode, Intent data ) {
 		// Camera activity with filename provided provides no data.
 		if (resultCode == Activity.RESULT_OK) {

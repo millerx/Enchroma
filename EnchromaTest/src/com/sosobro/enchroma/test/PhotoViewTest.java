@@ -7,7 +7,6 @@ import com.sosobro.enchroma.*;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Parcel;
-import android.provider.MediaStore;
 import android.test.ActivityUnitTestCase;
 
 public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
@@ -31,24 +30,7 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 		_photoView = (PhotoView) a.findViewById( R.id.subjectImg );
 	}
 
-	public void testOnClick( ) {
-		_photoView.onClick( _photoView );
-		
-		// Did we start the camera activity specifying the file path?
-		Intent i = getStartedActivityIntent();
-		assertEquals( MediaStore.ACTION_IMAGE_CAPTURE, i.getAction() );
-		assertEquals( MainActivity.REQ_CAPTURESUBJECTPHOTO, getStartedActivityRequest() );
-		assertEquals( "file:///storage/sdcard0/Pictures/Enchroma/subject.jpg",
-			i.getExtras().get( MediaStore.EXTRA_OUTPUT ).toString() );
-
-		// Did we save the state?
-		PhotoView.SavedState ss = (PhotoView.SavedState) _photoView.onSaveInstanceState();
-		assertEquals( Shims.FileUtilsShim.SubjectFilePath, ss.photoFile.toString() );
-		
-		// TODO: Test if path was created.
-	}
-
-	public void testCameraActivityReturns( ) {
+	public void testActivityReturns( ) {
 		_photoView.onActivityResult( Activity.RESULT_OK, null );
 		
 		// Did we create the thumb and save it to the state?

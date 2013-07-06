@@ -26,8 +26,10 @@ public class SelectPhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 		_selectView = (SelectPhotoView) a.findViewById( R.id.backgroundImg );
 	}
 
-	public void testSmoke( ) {
-		assertNotNull( _selectView );
+	public void testOnClick( ) {
+		_selectView.onClick( _selectView );
+
+		assertTrue( true );
 	}
 	
 }
