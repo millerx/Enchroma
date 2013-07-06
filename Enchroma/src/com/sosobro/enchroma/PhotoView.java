@@ -1,8 +1,6 @@
 package com.sosobro.enchroma;
 
-// TODO: Subclass to CameraPhotoView
-// TODO: Subclass to SelectPhotoView
-// TODO: Wire up new classes to buttons.
+// TODO: Pressing bg button stores thumb in camera btn spot.
 // TODO: Refactor code, pull from PhotoView to CameraPhotoView
 // TODO: Implement SelectPhotoView
 

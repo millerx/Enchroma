@@ -23,7 +23,7 @@
 	            android:text="Subject"
 	            android:textAppearance="?android:attr/textAppearanceSmall" />
 	        	        
-	        <com.sosobro.enchroma.PhotoView
+	        <com.sosobro.enchroma.CameraPhotoView
 	            android:id="@+id/subjectImg"
 	            android:layout_width="match_parent"
 	            android:layout_height="match_parent"
@@ -44,13 +44,12 @@
 	            android:text="Background"
 	            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-		    <ImageView
+	        <com.sosobro.enchroma.SelectPhotoView
 	            android:id="@+id/backgroundImg"
 	            android:layout_width="match_parent"
 	            android:layout_height="match_parent"
 	            android:scaleType="center"
-	            android:src="@android:drawable/btn_star"
-	            android:onClick="backgroundImg_onClick" />
+	            android:src="@android:drawable/btn_star" />
         
     	</LinearLayout>
     	

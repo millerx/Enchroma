@@ -6,7 +6,6 @@ import com.sosobro.enchroma.*;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.provider.MediaStore;
 import android.test.ActivityUnitTestCase;
@@ -19,29 +18,11 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 		super( MainActivity.class );
 	}
 
-	private class TestFileUtils extends FileUtils {
-		
-		public static final String SubjectFilePath = "/storage/sdcard0/Pictures/Enchroma/subject.jpg";
-		
-		@Override
-		public File createSubjectFilePath( Activity a ) {
-			return new File( SubjectFilePath );
-		}
-
-	}
-
-	private class TestThumbnailBuilder extends ThumbnailBuilder {
-		@Override
-		public Bitmap createThumbnail( File f ) {
-			return Bitmap.createBitmap( 8, 8, Bitmap.Config.RGB_565 );
-		}
-	}
-	
 	protected void setUp( ) throws Exception {
 		super.setUp();
 		
-		FileUtils.instance = new TestFileUtils();
-		ThumbnailBuilder.instance = new TestThumbnailBuilder();
+		FileUtils.instance = new Shims.FileUtilsShim();
+		ThumbnailBuilder.instance = new Shims.ThumbnailBuilderShim();
 		
 		MainActivity a = (MainActivity) startActivity(
 			new Intent( getInstrumentation().getTargetContext(), MainActivity.class ),
@@ -62,7 +43,7 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 
 		// Did we save the state?
 		PhotoView.SavedState ss = (PhotoView.SavedState) _photoView.onSaveInstanceState();
-		assertEquals( TestFileUtils.SubjectFilePath, ss.photoFile.toString() );
+		assertEquals( Shims.FileUtilsShim.SubjectFilePath, ss.photoFile.toString() );
 		
 		// TODO: Test if path was created.
 	}
@@ -84,14 +65,14 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 		
 		// Save
 		PhotoView.SavedState ss = new PhotoView.SavedState();
-		ss.photoFile = new File( TestFileUtils.SubjectFilePath );
+		ss.photoFile = new File( Shims.FileUtilsShim.SubjectFilePath );
 		ss.thumb = ThumbnailBuilder.instance.createThumbnail( ss.photoFile );
 		ss.writeToParcel( p, 0 );
 
 		// Restore
 		p.setDataPosition( 0 );
 		ss = new PhotoView.SavedState( p );
-		assertEquals( TestFileUtils.SubjectFilePath, ss.photoFile.toString() );
+		assertEquals( Shims.FileUtilsShim.SubjectFilePath, ss.photoFile.toString() );
 		assertNotNull( ss.thumb );
 		
 		p.recycle();

@@ -12,6 +12,7 @@ import android.view.View;
 public class MainActivity extends Activity {
 
 	public static final int REQ_CAPTURESUBJECTPHOTO = 1;
+	public static final int REQ_SELECTBACKGROUNDPHOTO = 2;
 	
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
@@ -21,6 +22,10 @@ public class MainActivity extends Activity {
 		{ // Init subjectImg
 			PhotoView v = (PhotoView) findViewById( R.id.subjectImg );
 			v.init( this, REQ_CAPTURESUBJECTPHOTO );
+		}
+		{ // Init backgroundImg
+			PhotoView v = (PhotoView) findViewById( R.id.backgroundImg );
+			v.init( this, REQ_SELECTBACKGROUNDPHOTO );
 		}
 	}
 
@@ -42,9 +47,16 @@ public class MainActivity extends Activity {
 
 		System.out.printf("onActivityResult req=%d res=%d\n", requestCode, resultCode);
 
-		if (requestCode == REQ_CAPTURESUBJECTPHOTO) {
+		switch (requestCode)
+		{
+		case REQ_CAPTURESUBJECTPHOTO: {
 			PhotoView v = (PhotoView) findViewById( R.id.subjectImg );
 			v.onActivityResult( resultCode, data );
+		} break;
+		case REQ_SELECTBACKGROUNDPHOTO: {
+			PhotoView v = (PhotoView) findViewById( R.id.subjectImg );
+			v.onActivityResult( resultCode, data );
+		} break;
 		}
 	}
 
