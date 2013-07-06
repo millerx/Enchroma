@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
 			v.onActivityResult( resultCode, data );
 		} break;
 		case REQ_SELECTBACKGROUNDPHOTO: {
-			PhotoView v = (PhotoView) findViewById( R.id.subjectImg );
+			PhotoView v = (PhotoView) findViewById( R.id.backgroundImg );
 			v.onActivityResult( resultCode, data );
 		} break;
 		}

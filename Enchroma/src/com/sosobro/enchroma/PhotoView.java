@@ -1,6 +1,5 @@
 package com.sosobro.enchroma;
 
-// TODO: Pressing bg button stores thumb in camera btn spot.
 // TODO: Refactor code, pull from PhotoView to CameraPhotoView
 // TODO: Implement SelectPhotoView
 
