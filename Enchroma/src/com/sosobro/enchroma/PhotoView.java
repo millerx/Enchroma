@@ -1,8 +1,6 @@
 package com.sosobro.enchroma;
 
 // TODO: Unit test writes error to log.
-// TODO: Refactor code, pull from PhotoView to CameraPhotoView
-// TODO: Implement SelectPhotoView
 
 import java.io.File;
 
@@ -92,7 +90,9 @@ public abstract class PhotoView extends ImageView
 	public void onRestoreInstanceState( Parcelable state ) {
 		_ss = (SavedState) state;
 		super.onRestoreInstanceState( _ss.getSuperState() );
-
+	}
+	
+	public void onActivityResume( ) {
 		if (_ss.thumb != null) {
 			setImageBitmap( _ss.thumb );
 		}
@@ -100,8 +100,9 @@ public abstract class PhotoView extends ImageView
 	
 	public void onActivityResult( int resultCode, Intent data ) {
 		if (resultCode == Activity.RESULT_OK) {
-			if (_ss.photoFile != null)
+			if (_ss.photoFile != null && _ss.thumb == null) {
 				_ss.thumb = ThumbnailBuilder.instance.createThumbnail( _ss.photoFile );
+			}
 		}
 	}
 }

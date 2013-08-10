@@ -40,8 +40,9 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 		PhotoView.SavedState ss = (PhotoView.SavedState) _photoView.onSaveInstanceState();
 		assertNotNull( ss.thumb );
 		
-		// When the state is restored we set the image.
+		// We should set the state on restore, and since the bitmap is non-null, set the bitmap on resume.
 		_photoView.onRestoreInstanceState( ss );
+		_photoView.onActivityResume();
 		assertEquals( 8, _photoView.getDrawable().getIntrinsicWidth() );
 	}
 	

@@ -13,20 +13,20 @@ public class MainActivity extends Activity {
 
 	public static final int REQ_CAPTURESUBJECTPHOTO = 1;
 	public static final int REQ_SELECTBACKGROUNDPHOTO = 2;
+
+	private PhotoView m_subjectPV;
+	private PhotoView m_backgroundPV;
 	
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_main );
 
-		{ // Init subjectImg
-			PhotoView v = (PhotoView) findViewById( R.id.subjectImg );
-			v.init( this, REQ_CAPTURESUBJECTPHOTO );
-		}
-		{ // Init backgroundImg
-			PhotoView v = (PhotoView) findViewById( R.id.backgroundImg );
-			v.init( this, REQ_SELECTBACKGROUNDPHOTO );
-		}
+		m_subjectPV = (PhotoView) findViewById( R.id.subjectImg );
+		m_subjectPV.init( this, REQ_CAPTURESUBJECTPHOTO );
+
+		m_backgroundPV = (PhotoView) findViewById( R.id.backgroundImg );
+		m_backgroundPV.init( this, REQ_SELECTBACKGROUNDPHOTO );
 	}
 
 	@Override
@@ -36,10 +36,13 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	/*@Override
-	protected void onRestoreInstanceState( Bundle state ) {
-		super.onRestoreInstanceState( state );
-	}*/
+	@Override
+	protected void onResume( ) {
+		super.onResume();
+		System.out.println("MainActivity resume");
+		m_subjectPV.onActivityResume();
+		m_backgroundPV.onActivityResume();
+	}
 
 	@Override
 	public void onActivityResult( int requestCode, int resultCode, Intent data ) {
@@ -49,27 +52,15 @@ public class MainActivity extends Activity {
 
 		switch (requestCode)
 		{
-		case REQ_CAPTURESUBJECTPHOTO: {
-			PhotoView v = (PhotoView) findViewById( R.id.subjectImg );
-			v.onActivityResult( resultCode, data );
-		} break;
-		case REQ_SELECTBACKGROUNDPHOTO: {
-			PhotoView v = (PhotoView) findViewById( R.id.backgroundImg );
-			v.onActivityResult( resultCode, data );
-		} break;
+		case REQ_CAPTURESUBJECTPHOTO:
+			m_subjectPV.onActivityResult( resultCode, data );
+			break;
+		case REQ_SELECTBACKGROUNDPHOTO:
+			m_backgroundPV.onActivityResult( resultCode, data );
+			break;
 		}
 	}
 
-	/*@Override
-	protected void onResume( ) {
-		super.onResume();
-	}*/
-
-	/*@Override
-	protected void onSaveInstanceState( Bundle state ) {
-		super.onSaveInstanceState( state );
-	}*/
-	
 	public void engageBtn_onClick( View v ) {
 		// TODO: Enage
 	}
