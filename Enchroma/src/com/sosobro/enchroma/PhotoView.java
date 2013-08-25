@@ -1,6 +1,7 @@
 package com.sosobro.enchroma;
 
 // TODO: Unit test writes error to log.
+// TODO: Picking photo a second time doesn't work.  (Neither does second camera shot)
 
 import java.io.File;
 
@@ -99,8 +100,9 @@ public abstract class PhotoView extends ImageView
 	}
 	
 	public void onActivityResult( int resultCode, Intent data ) {
+		// If OK was returned then _ss.photoFile should have been set.
 		if (resultCode == Activity.RESULT_OK) {
-			if (_ss.photoFile != null && _ss.thumb == null) {
+			if (_ss.thumb == null) {
 				_ss.thumb = ThumbnailBuilder.instance.createThumbnail( _ss.photoFile );
 			}
 		}

@@ -14,19 +14,19 @@ public class MainActivity extends Activity {
 	public static final int REQ_CAPTURESUBJECTPHOTO = 1;
 	public static final int REQ_SELECTBACKGROUNDPHOTO = 2;
 
-	private PhotoView m_subjectPV;
-	private PhotoView m_backgroundPV;
+	private PhotoView _subjectPV;
+	private PhotoView _backgroundPV;
 	
 	@Override
 	protected void onCreate( Bundle savedInstanceState ) {
 		super.onCreate( savedInstanceState );
 		setContentView( R.layout.activity_main );
 
-		m_subjectPV = (PhotoView) findViewById( R.id.subjectImg );
-		m_subjectPV.init( this, REQ_CAPTURESUBJECTPHOTO );
+		_subjectPV = (PhotoView) findViewById( R.id.subjectImg );
+		_subjectPV.init( this, REQ_CAPTURESUBJECTPHOTO );
 
-		m_backgroundPV = (PhotoView) findViewById( R.id.backgroundImg );
-		m_backgroundPV.init( this, REQ_SELECTBACKGROUNDPHOTO );
+		_backgroundPV = (PhotoView) findViewById( R.id.backgroundImg );
+		_backgroundPV.init( this, REQ_SELECTBACKGROUNDPHOTO );
 	}
 
 	@Override
@@ -40,8 +40,8 @@ public class MainActivity extends Activity {
 	protected void onResume( ) {
 		super.onResume();
 		System.out.println("MainActivity resume");
-		m_subjectPV.onActivityResume();
-		m_backgroundPV.onActivityResume();
+		_subjectPV.onActivityResume();
+		_backgroundPV.onActivityResume();
 	}
 
 	@Override
@@ -53,15 +53,15 @@ public class MainActivity extends Activity {
 		switch (requestCode)
 		{
 		case REQ_CAPTURESUBJECTPHOTO:
-			m_subjectPV.onActivityResult( resultCode, data );
+			_subjectPV.onActivityResult( resultCode, data );
 			break;
 		case REQ_SELECTBACKGROUNDPHOTO:
-			m_backgroundPV.onActivityResult( resultCode, data );
+			_backgroundPV.onActivityResult( resultCode, data );
 			break;
 		}
 	}
 
 	public void engageBtn_onClick( View v ) {
-		// TODO: Enage
+		// TODO: Engage
 	}
 }

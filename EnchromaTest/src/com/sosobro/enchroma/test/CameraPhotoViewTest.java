@@ -1,7 +1,10 @@
 package com.sosobro.enchroma.test;
 
+import java.io.File;
+
 import com.sosobro.enchroma.*;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.provider.MediaStore;
 import android.test.ActivityUnitTestCase;
@@ -27,7 +30,7 @@ public class CameraPhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 		_cameraView = (CameraPhotoView) a.findViewById( R.id.subjectImg );
 	}
 
-	public void testOnClick( ) {
+	public void testCameraPhotoTaken( ) {
 		_cameraView.onClick( _cameraView );
 		
 		// Did we start the camera activity specifying the file path?
@@ -37,11 +40,39 @@ public class CameraPhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 		assertEquals( "file:///storage/sdcard0/Pictures/Enchroma/subject.jpg",
 			i.getExtras().get( MediaStore.EXTRA_OUTPUT ).toString() );
 
-		// Did we save the state?
+		// TODO: Test if path was created.
+		
 		PhotoView.SavedState ss = (PhotoView.SavedState) _cameraView.onSaveInstanceState();
+		// ss.photoFile should not be set until activity returns.
+		assertNull( ss.photoFile );
+		// [Photo taken]
+		
+		// We can't test starting camera activity and returning result on same test because we can't reset the View object.
+		// But we can't put it in a separate test because creating a SavedState fails at runtime.
+		_cameraView.onRestoreInstanceState( ss );
+		_cameraView.onActivityResult( Activity.RESULT_OK, null );
+		
+		// Did we save the state?
 		assertEquals( Shims.FileUtilsShim.SubjectFilePath, ss.photoFile.toString() );
 		
-		// TODO: Test if path was created.
+		_cameraView.onActivityResume();
 	}
 
+	public void testCameraActivityCancelled( ) {
+		_cameraView.onClick( _cameraView );
+		
+		PhotoView.SavedState ss = (PhotoView.SavedState) _cameraView.onSaveInstanceState();
+		// ss.photoFile should not be set until activity returns.
+		assertNull( ss.photoFile );
+		// [Photo taken]
+		
+		_cameraView.onRestoreInstanceState( ss );
+		_cameraView.onActivityResult( Activity.RESULT_CANCELED, null );
+		
+		// photoFile should still be null because activity result was not OK.
+		assertNull( ss.photoFile );
+		
+		_cameraView.onActivityResume();
+	}
+	
 }

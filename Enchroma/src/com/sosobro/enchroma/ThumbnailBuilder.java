@@ -10,6 +10,7 @@ import android.media.ExifInterface;
 public class ThumbnailBuilder {
 
 	private static int getOrientation( String filename ) {
+		// TODO: Let this exception bubble up and ultimately protect the callers of createThumbnail()
 		try {
 			ExifInterface exif = new ExifInterface( filename.toString() );
 			return exif.getAttributeInt( ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL );

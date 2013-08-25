@@ -31,17 +31,18 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 	}
 
 	public void testActivityReturns( ) {
-		// onClick sets the photo filename which we need before we will create a thumbnail.
-		// TODO: This file is dependent on CameraPhotoView's implementation. 
 		_photoView.onClick(  _photoView );
-		_photoView.onActivityResult( Activity.RESULT_OK, null );
 		
-		// Did we create the thumb and save it to the state?
 		PhotoView.SavedState ss = (PhotoView.SavedState) _photoView.onSaveInstanceState();
-		assertNotNull( ss.thumb );
+		// [Photo taken]
 		
-		// We should set the state on restore, and since the bitmap is non-null, set the bitmap on resume.
 		_photoView.onRestoreInstanceState( ss );
+		// If ss.photoFile is not null then ss.thumb is created here.
+		_photoView.onActivityResult( Activity.RESULT_OK, null );
+		assertNotNull( ss.photoFile );
+		assertNotNull( ss.thumb );
+
+		// ss.thumb is set on the PhotoView's drawable here.
 		_photoView.onActivityResume();
 		assertEquals( 8, _photoView.getDrawable().getIntrinsicWidth() );
 	}
