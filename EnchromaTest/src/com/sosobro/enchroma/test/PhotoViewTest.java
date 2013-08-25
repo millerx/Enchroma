@@ -6,6 +6,7 @@ import com.sosobro.enchroma.*;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.test.ActivityUnitTestCase;
 
@@ -31,7 +32,7 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 	}
 
 	public void testActivityReturns( ) {
-		_photoView.onClick(  _photoView );
+		_photoView.onClick( _photoView );
 		
 		PhotoView.SavedState ss = (PhotoView.SavedState) _photoView.onSaveInstanceState();
 		// [Photo taken]
@@ -45,6 +46,12 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 		// ss.thumb is set on the PhotoView's drawable here.
 		_photoView.onActivityResume();
 		assertEquals( 8, _photoView.getDrawable().getIntrinsicWidth() );
+		
+		// If we took a second photo then the thumbnail should be recreated.
+		Bitmap oldThumb = ss.thumb;
+		_photoView.onActivityResult( Activity.RESULT_OK, null );
+		assertNotNull( ss.thumb );
+		assertNotSame( oldThumb, ss.thumb );
 	}
 	
 	public void testSaveRestoreState( ) {
