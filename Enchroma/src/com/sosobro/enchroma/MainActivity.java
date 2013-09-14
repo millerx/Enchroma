@@ -8,6 +8,7 @@ import android.view.View;
 
 // TODO: Optimize layout
 //       http://stackoverflow.com/questions/5254562/is-there-a-simpler-better-way-to-put-a-border-outline-around-my-textview
+// TODO: Tiny picture when you use front-facing camera.  And it doesn't work because of non-equal sizes.
 
 public class MainActivity extends Activity {
 
