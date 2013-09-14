@@ -1,8 +1,8 @@
 package com.sosobro.enchroma.test;
 
-import java.io.File;
-
 import com.sosobro.enchroma.*;
+import com.sosobro.enchroma.test.Shims.FileUtilsShim;
+import com.sosobro.enchroma.test.Shims.PickUtilsShim;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,6 +22,7 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
 		
 		FileUtils.instance = new Shims.FileUtilsShim();
 		ThumbnailBuilder.instance = new Shims.ThumbnailBuilderShim();
+		PickUtils.instance = new Shims.PickUtilsShim();
 		
 		MainActivity a = (MainActivity) startActivity(
 			new Intent( getInstrumentation().getTargetContext(), MainActivity.class ),
@@ -43,10 +44,8 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
 		Intent i = getStartedActivityIntent();
 		assertEquals( "com.sosobro.enchroma.ChromakeyActivity",
 			i.getComponent().getClassName() );
-		assertEquals( "/storage/sdcard0/Pictures/Enchroma/subject.jpg",
-			i.getExtras().get( Common.EXTRA_SUBJECT_FN ).toString() );
-		assertEquals( "/storage/sdcard0/Download/PlanetFlaire.jpg",
-				i.getExtras().get( Common.EXTRA_BACKGROUND_FN ).toString() );
+		assertEquals( FileUtilsShim.SubjectFilePath, i.getExtras().get( Common.EXTRA_SUBJECT_FN ).toString() );
+		assertEquals( PickUtilsShim.PickedPhotoPath, i.getExtras().get( Common.EXTRA_BACKGROUND_FN ).toString() );
 	}
 
 	// Tests that the Engage button is disabled if no photos have been selected.
@@ -89,8 +88,12 @@ public class MainActivityTest extends ActivityUnitTestCase<MainActivity> {
 
 	private void setBackgroundPhoto( ) {
 		// TODO: Better sim once SelectPhotoView tests are written.
-		PhotoView.SavedState ss = (PhotoView.SavedState) _backgroundView.onSaveInstanceState();
-		ss.photoFile = new File( "/storage/sdcard0/Download/PlanetFlaire.jpg" );
-		_backgroundView.onRestoreInstanceState( ss );
+//		PhotoView.SavedState ss = (PhotoView.SavedState) _backgroundView.onSaveInstanceState();
+//		ss.photoFile = new File( "/storage/sdcard0/Download/PlanetFlaire.jpg" );
+//		_backgroundView.onRestoreInstanceState( ss );
+		_backgroundView.onClick( _subjectView );
+		Intent ri = new Intent( "action", android.net.Uri.parse("data://picker") );
+		_backgroundView.onActivityResult( Activity.RESULT_OK, ri );
 	}
+	
 }

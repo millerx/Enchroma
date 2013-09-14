@@ -1,7 +1,5 @@
 package com.sosobro.enchroma;
 
-// TODO: Unit test writes error to log.
-
 import java.io.File;
 
 import android.app.Activity;
