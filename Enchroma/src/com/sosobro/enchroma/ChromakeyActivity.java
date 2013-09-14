@@ -34,7 +34,7 @@ public class ChromakeyActivity extends Activity {
 	@Override
 	protected void onResume( ) {
 		super.onResume();
-		System.out.println("EN CKA resume");
+		System.out.println("ChromakeyActivity resume");
 		
 		String subjectFn = "";
 		String backgroundFn = "";
@@ -44,8 +44,8 @@ public class ChromakeyActivity extends Activity {
 			backgroundFn = extras.getString( Common.EXTRA_BACKGROUND_FN );
 		}
 
-		System.out.println("EN CKA subject=" + subjectFn);
-		System.out.println("EN CKA background=" + backgroundFn);
+		System.out.println("resume subject=" + subjectFn);
+		System.out.println("resume background=" + backgroundFn);
 
 		// TODO: Reduce memory as much as possible.
 		// TODO: Convert to ints then dispose bitmap.

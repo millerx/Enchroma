@@ -1,5 +1,7 @@
 package com.sosobro.enchroma.test;
 
+// TODO: More tests
+
 import com.sosobro.enchroma.*;
 
 import android.content.Intent;

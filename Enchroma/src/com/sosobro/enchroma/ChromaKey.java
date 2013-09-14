@@ -1,5 +1,7 @@
 package com.sosobro.enchroma;
 
+// TODO: Chromakey on items that are not the same size.
+
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
@@ -13,7 +15,9 @@ public class ChromaKey {
 		// Images must be the same size.
 		if (foreBmp.getWidth() != backBmp.getWidth() ||
 			foreBmp.getHeight() != backBmp.getHeight())
-			throw new Exception();
+		{
+			throw new Exception("Image sizes must match.");
+		}
 		
 		// We want the color depth of the foreground image since that is the image we just took
 		// with our camera. 

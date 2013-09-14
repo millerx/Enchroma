@@ -80,6 +80,12 @@ public abstract class PhotoView extends ImageView
 		_activity = a;
 		_reqId = reqId;
 	}
+
+	public String getPhotoFileName( ) {
+		if (_ss.photoFile == null)
+			return null;
+		return _ss.photoFile.toString();
+	}
 	
 	@Override
 	public Parcelable onSaveInstanceState( ) {

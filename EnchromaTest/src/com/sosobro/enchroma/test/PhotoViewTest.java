@@ -53,6 +53,15 @@ public class PhotoViewTest extends ActivityUnitTestCase<MainActivity> {
 		assertNotNull( ss.thumb );
 		assertNotSame( oldThumb, ss.thumb );
 	}
+
+	public void testGetPhotoFile( ) {
+		assertNull( _photoView.getPhotoFileName() );
+		
+		_photoView.onClick( _photoView );
+		_photoView.onActivityResult( Activity.RESULT_OK, null );
+		
+		assertEquals( Shims.FileUtilsShim.SubjectFilePath, _photoView.getPhotoFileName() );
+	}
 	
 	public void testSaveRestoreState( ) {
 		Parcel p = Parcel.obtain();

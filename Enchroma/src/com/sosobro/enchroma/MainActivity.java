@@ -13,6 +13,7 @@ public class MainActivity extends Activity {
 
 	public static final int REQ_CAPTURESUBJECTPHOTO = 1;
 	public static final int REQ_SELECTBACKGROUNDPHOTO = 2;
+	public static final int REQ_CHROMAKEY = 3;
 
 	private PhotoView _subjectPV;
 	private PhotoView _backgroundPV;
@@ -62,6 +63,15 @@ public class MainActivity extends Activity {
 	}
 
 	public void engageBtn_onClick( View v ) {
-		// TODO: Engage
+		// Only chromakey if the subject and the background have been selected.
+		String subjectFileName = _subjectPV.getPhotoFileName();
+		String backgroundFileName = _backgroundPV.getPhotoFileName();
+		if (subjectFileName != null && backgroundFileName != null)
+		{
+			Intent i = new Intent( this, ChromakeyActivity.class );
+			i.putExtra( Common.EXTRA_SUBJECT_FN, subjectFileName );
+			i.putExtra( Common.EXTRA_BACKGROUND_FN, backgroundFileName );
+			startActivityForResult( i, REQ_CHROMAKEY );
+		}
 	}
 }

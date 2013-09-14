@@ -1,7 +1,5 @@
 package com.sosobro.enchroma.test;
 
-import java.io.File;
-
 import com.sosobro.enchroma.*;
 
 import android.app.Activity;
